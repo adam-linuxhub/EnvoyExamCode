@@ -29,12 +29,12 @@ app.post('/validate-me', (req, res) => {
 app.post('/visitor-sign-out', async (req, res) => {
   const envoy = req.envoy; // our middleware adds an "envoy" object to req.
   const job = envoy.job;
-  const goodbye = envoy.meta.config.GOODBYE;
+  const goodbye = 'aaaaaaaaa';//envoy.meta.config.GOODBYE;
   const visitor = envoy.payload;
   const visitorName = visitor.attributes['full-name'];
 
-  const message = `${goodbye} ${visitorName}!`;
-  await job.attach({ label: 'Goodbye', value: 'User stayed past their allotted time' });
+  const message = 'user stayed later';//`${goodbye} ${visitorName}!`;
+  await job.attach({ label: 'Goodbye', value: message });
   
   res.send({ goodbye });
 });
