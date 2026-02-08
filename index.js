@@ -38,17 +38,7 @@ app.post('/goodbye-options', (req, res) => {
 });
 
 app.post('/validate-me', (req, res) => {
-  const {
-    envoy: {
-      payload: {
-        foo,
-      },
-    }
-  } = req;
-  res.send({
-    foo, // we will save the original "foo" from the payload
-    bar: 'hello Adam world', // along with a new "bar" variable
-  });
+  res.sendFailed('These values are bad.');
 });
 
 app.post('/visitor-sign-in', async (req, res) => {
@@ -59,7 +49,7 @@ app.post('/visitor-sign-in', async (req, res) => {
   const visitorName = visitor.attributes['full-name'];
   
   const message = `${hello} ${visitorName}!`; // our custom greeting
-  await job.attach({ label: 'Hello', value: message }); // show in the Envoy dashboard.
+  await job.attach({ label: 'Hello', value: 'Sihning in ok' }); // show in the Envoy dashboard.
   
   res.send({ hello });
 });
@@ -72,7 +62,7 @@ app.post('/visitor-sign-out', async (req, res) => {
   const visitorName = visitor.attributes['full-name'];
 
   const message = `${goodbye} ${visitorName}!`;
-  await job.attach({ label: 'Goodbye', value: message });
+  await job.attach({ label: 'Goodbye', value: 'signingout ok' });
   
   res.send({ goodbye });
 });
