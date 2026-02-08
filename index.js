@@ -46,15 +46,15 @@ app.post('/visitor-sign-out', async (req, res) => {
   const goodbye = 'aaaaaaaaa';//envoy.meta.config.GOODBYE;
   const visitor = envoy.payload;
   const visitorName = visitor.attributes['full-name'];
-  //const { EOL } = require("os");
+  const { EOL } = require("os");
   const num_minutes = envoy.meta.config.num_minutes;
   const entry_sign_in = visitor.attributes['signed-in-at'];
-  const entry_sign_out = visitor.attributes['entry_sign_out'];
+  const entry_sign_out = visitor.attributes['signed-out-at'];
   const start = new Date(entry_sign_in);
   const end = new Date(entry_sign_out);
   const diffMinutes = Math.floor((end - start) / (1000 * 60));
 
-  const message = `Number of Minutes - ${num_minutes} ${visitorName} Signed in - ${entry_sign_in} Signed Out - ${entry_sign_out} Difference in Minutes - ${diffMinutes}`;; // our custom greeting
+  const message = `Number of Minutes - ${num_minutes} ${visitorName} {EOL} Signed in - ${entry_sign_in} Signed Out - ${entry_sign_out} Difference in Minutes - ${diffMinutes}`;; // our custom greeting
   await job.attach({ label: 'Goodbye', value: message });
   
   res.send({ goodbye });
