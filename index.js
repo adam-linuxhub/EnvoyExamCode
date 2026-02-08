@@ -37,6 +37,20 @@ app.post('/goodbye-options', (req, res) => {
   ]);
 });
 
+app.post('/validate-me', (req, res) => {
+  const {
+    envoy: {
+      payload: {
+        foo,
+      },
+    }
+  } = req;
+  res.send({
+    foo, // we will save the original "foo" from the payload
+    bar: 'hello Adam world', // along with a new "bar" variable
+  });
+});
+
 app.post('/visitor-sign-in', async (req, res) => {
   const envoy = req.envoy; // our middleware adds an "envoy" object to req.
   const job = envoy.job;
