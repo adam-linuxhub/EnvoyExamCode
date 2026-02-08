@@ -45,8 +45,14 @@ app.post('/visitor-sign-out', async (req, res) => {
   const goodbye = 'aaaaaaaaa';//envoy.meta.config.GOODBYE;
   const visitor = envoy.payload;
   const visitorName = visitor.attributes['full-name'];
+  //const { EOL } = require("os");
+  const num_minutes = envoy.meta.config.num_minutes;
+  const entry_sign_in = visitor.attributes['entry_sign_in'];
+  const entry_sign_out = visitor.attributes['entry_sign_out'];
+  
 
-  const message = 'user stayed later';//`${goodbye} ${visitorName}!`;
+
+  const message = `Number of Minutes - ${num_minutes} ${visitorName} Signed in - ${entry_sign_in} Signed Out ${entry_sign_out}`;
   await job.attach({ label: 'Goodbye', value: message });
   
   res.send({ goodbye });
