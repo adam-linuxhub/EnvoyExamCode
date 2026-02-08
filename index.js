@@ -12,12 +12,16 @@ app.post('/validate-me', (req, res) => {
       },
     }
   } = req;
-  if (isNaN(num_minutes) || num_minutes < 0 || num_minutes > 180) 
-    res.sendFailed('Minutes must be a number between 0 and 180');
-  else
-    res.send({ num_minutes });
 
-}
+  if (isNaN(num_minutes) || num_minutes < 0 || num_minutes > 180) 
+  {
+    res.sendFailed('Minutes must be a number between 0 and 180');
+  }
+  else
+  {
+    res.send({ num_minutes, bar: 'Success',});
+  }
+
 
 });
 
