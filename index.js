@@ -29,10 +29,11 @@ app.post('/visitor-sign-in', async (req, res) => {
   const envoy = req.envoy; // our middleware adds an "envoy" object to req.
   const job = envoy.job;
   const hello = envoy.meta.config.HELLO;
+  const num_minutes = envoy.meta.config.num_minutes;
   const visitor = envoy.payload;
   const visitorName = visitor.attributes['full-name'];
   
-  const message = 'aaaaa'; // our custom greeting
+  const message = 'aaaaa ${num_minutes}'; // our custom greeting
   await job.attach({ label: 'Hello', value: message }); // show in the Envoy dashboard.
   
   res.send({ hello });
