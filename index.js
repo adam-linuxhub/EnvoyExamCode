@@ -3,16 +3,12 @@ const { middleware, errorMiddleware } = require('@envoy/envoy-integrations-sdk')
 const app = express();
 app.use(middleware());
 
-
+// Validation
 app.post('/validate-me', (req, res) => {
-  const {
-    envoy: {
-      payload: {
-        num_minutes,
-      },
-    }
-  } = req;
-
+  const envoy = req.envoy;
+  const payload = envoy.payload;
+  const num_minutes = payload.num_minutes;
+  
   if (isNaN(num_minutes) || num_minutes < 0 || num_minutes > 180) 
   {
     res.sendFailed('Minutes must be a number between 0 and 180');
@@ -25,39 +21,37 @@ app.post('/validate-me', (req, res) => {
 
 });
 
+// Sign-in
 app.post('/visitor-sign-in', async (req, res) => {
   
-  const envoy = req.envoy; // our middleware adds an "envoy" object to req.
+  const envoy = req.envoy;
   const job = envoy.job;
-  const hello = envoy.meta.config.HELLO;
   const num_minutes = envoy.meta.config.num_minutes;
-  const visitor = envoy.payload;
-  const visitorName = visitor.attributes['full-name'];
-  
-  const message = `${num_minutes} ${visitorName}!`;; // our custom greeting
-  await job.attach({ label: 'Hello', value: message }); // show in the Envoy dashboard.
-  
-  res.send({ hello });
+   
+  res.send({ num_minutes });
 });
 
+// Sign out - Show a message indicating whether the visitor stayed within the allotted time or not
 app.post('/visitor-sign-out', async (req, res) => {
-  const envoy = req.envoy; // our middleware adds an "envoy" object to req.
+  const envoy = req.envoy; 
   const job = envoy.job;
-  const goodbye = 'aaaaaaaaa';//envoy.meta.config.GOODBYE;
   const visitor = envoy.payload;
-  const visitorName = visitor.attributes['full-name'];
-  const { EOL } = require("os");
-  const num_minutes = envoy.meta.config.num_minutes;
-  const entry_sign_in = visitor.attributes['signed-in-at'];
-  const entry_sign_out = visitor.attributes['signed-out-at'];
-  const start = new Date(entry_sign_in);
+  const num_minutes = envoy.meta.config.num_minutes;          // Number of minutes allowed from the config
+  const entry_sign_in = visitor.attributes['signed-in-at'];   // Signed-in time
+  const entry_sign_out = visitor.attributes['signed-out-at']; // Signed-out time
+  const start = new Date(entry_sign_in);  
   const end = new Date(entry_sign_out);
-  const diffMinutes = Math.floor((end - start) / (1000 * 60));
+  const diffMinutes = Math.floor((end - start) / (1000 * 60)); // Calculating the difference in minutes
 
-  const message = `Number of Minutes - ${num_minutes} ${visitorName} {EOL} Signed in - ${entry_sign_in} Signed Out - ${entry_sign_out} Difference in Minutes - ${diffMinutes}`;; // our custom greeting
+  const message = `Visitor stayed within the allotted time  - ${diffMinutes}`;
+  if(diffMinutes > num_minutes)
+  {
+    message = `Visitor stayed over the allotted time  - ${diffMinutes}`;
+  } 
+
   await job.attach({ label: 'Goodbye', value: message });
   
-  res.send({ goodbye });
+ // res.send({ num_minutes });
 });
 
 
