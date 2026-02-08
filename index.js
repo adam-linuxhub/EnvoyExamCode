@@ -40,7 +40,7 @@ app.post('/visitor-sign-out', async (req, res) => {
 
   var message = `Visitor stayed within the allotted time`;
   if(diffMinutes > num_minutes){
-    message = `Visitor stayed over the allotted time  - ${diffMinutes}`;
+    message = `Visitor stayed over the allotted time by ${diffMinutes - num_minutes} minutes`;
   } 
 
   await job.attach({ label: 'Visitor Details', value: message });
