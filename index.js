@@ -41,13 +41,6 @@ app.post('/visitor-sign-in', async (req, res) => {
 });
 
 app.post('/visitor-sign-out', async (req, res) => {
-   const {
-    envoy: {
-      payload: {
-        entry_sign_in,
-      },
-    }
-  } = req;
   const envoy = req.envoy; // our middleware adds an "envoy" object to req.
   const job = envoy.job;
   const goodbye = 'aaaaaaaaa';//envoy.meta.config.GOODBYE;
@@ -55,7 +48,7 @@ app.post('/visitor-sign-out', async (req, res) => {
   const visitorName = visitor.attributes['full-name'];
   //const { EOL } = require("os");
   const num_minutes = envoy.meta.config.num_minutes;
-  //const  = visitor.attributes['entry_sign_in'];
+  const entry_sign_in = visitor.attributes['signed-in-at'];
   const entry_sign_out = visitor.attributes['entry_sign_out'];
   
 
