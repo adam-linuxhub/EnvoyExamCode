@@ -33,7 +33,7 @@ app.post('/visitor-sign-in', async (req, res) => {
   const visitor = envoy.payload;
   const visitorName = visitor.attributes['full-name'];
   
-  const message = 'aaaaa ${num_minutes}'; // our custom greeting
+  const message = `${num_minutes} ${visitorName}!`;; // our custom greeting
   await job.attach({ label: 'Hello', value: message }); // show in the Envoy dashboard.
   
   res.send({ hello });
