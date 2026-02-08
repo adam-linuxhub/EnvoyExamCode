@@ -43,7 +43,7 @@ app.post('/visitor-sign-out', async (req, res) => {
   const end = new Date(signed_out);
   const diffMinutes = Math.floor((end - start) / (1000 * 60)); // Calculating the difference in minutes
 
-  const message = `Visitor stayed within the allotted time  - ${diffMinutes} {signed_in} {signed_out} {num_minutes} {start} {end}`;
+  const message = `Visitor stayed within the allotted time  - ${diffMinutes} ${signed_in} ${signed_out} ${num_minutes} ${start} ${end}`;
   if(diffMinutes > num_minutes)
   {
     message = `Visitor stayed over the allotted time  - ${diffMinutes}`;
