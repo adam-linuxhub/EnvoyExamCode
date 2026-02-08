@@ -5,8 +5,15 @@ app.use(middleware());
 
 
 app.post('/validate-me', (req, res) => {
-  if (isNaN(str)) {
-  res.sendFailed('These values are bad.');
+  const {
+    envoy: {
+      payload: {
+        num_minutes,
+      },
+    }
+  } = req;
+  if (isNaN(num_minutes) || num_minutes < 0 || num_minutes > 180)  {
+  res.sendFailed('Minutes must be a number between 0 and 180');
 }
 
 });
